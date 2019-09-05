@@ -17,7 +17,7 @@
 <script src="/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js" th:href="@{/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
 <script type="text/javascript" src="/static/js/jsmpeg.min.js" th:src="@{/static/js/jsmpeg.min.js}"></script>
 <script type="text/javascript">
-    var player = new JSMpeg.Player('ws://127.0.0.1:8082', {
+    var player = new JSMpeg.Player('ws://' + location.hostname + ':8082', {
         canvas: document.getElementById('video-canvas')
     });
 

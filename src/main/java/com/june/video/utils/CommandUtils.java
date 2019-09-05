@@ -33,7 +33,7 @@ public class CommandUtils {
         executor.setExitValues(null);
         executor.setWatchdog(watchdog);
 
-        PumpStreamHandler streamHandler = new PumpStreamHandler(System.out,System.out);
+        PumpStreamHandler streamHandler = new PumpStreamHandler(System.out, System.out);
 
         executor.setStreamHandler(streamHandler);
         try {

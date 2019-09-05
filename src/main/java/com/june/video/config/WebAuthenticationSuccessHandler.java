@@ -18,7 +18,7 @@ public class WebAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         httpServletRequest.getSession().setAttribute("user", user);
         httpServletResponse.sendRedirect("/index");
     }

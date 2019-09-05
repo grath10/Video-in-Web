@@ -1,14 +1,11 @@
 package com.june.video.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Elements.REMEMBER_ME;
@@ -18,14 +15,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String WEB_TOKEN = "web-token";
     private static final String WEB_REM_ME_KEY = "web-rem-me-key";
     private static final int TOKEN_VALIDITY_SECONDS = 7776000;// 7776000 - 3 months, 15552000 - 6 months
+    @Autowired
+    private WebAuthenticationSuccessHandler webAuthenticationSuccessHandler;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/**", "/imagecode", "/uploaded/**");
     }
-
-    @Autowired
-    private WebAuthenticationSuccessHandler webAuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -37,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 //授权控制
-                .antMatchers("/video/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/video/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -59,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin").password("admin").roles("ADMIN")
                 .and()
