@@ -20,6 +20,6 @@ public class HomeController {
     @RequestMapping("/stream")
     @ResponseBody
     public void getWebStream() {
-        CommandUtils.runFFmpegCmd("rtsp://admin:zqtech123@192.168.1.196/h264/ch1/main/av_stream", "http://127.0.0.1:8081/supersecret");
+        CommandUtils.runFFmpegCmd("rtsp://admin:zqtech123@192.168.1.196/h264/ch1/main/av_stream", "http://127.0.0.1:8083/supersecret");
     }
 }

@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 //授权控制
-                .antMatchers("/video/**").hasAnyRole("USR","ADMIN")
+                .antMatchers("/video/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -58,14 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/403");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
+        auth.inMemoryAuthentication()
                 .withUser("admin").password("admin").roles("ADMIN")
                 .and()
                 .withUser("user").password("123456").roles("USER");

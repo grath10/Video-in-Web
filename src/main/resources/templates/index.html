@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>视频流查看</title>
+    <style type="text/css">
+        html, body {
+            background-color: #111;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-
+    <canvas id="video-canvas"></canvas>
+    <button class="btn btn-default" onclick="getStream()">查看</button>
 </body>
+<script src="/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js" th:href="@{/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<script type="text/javascript" src="/static/js/jsmpeg.min.js" th:src="@{/static/js/jsmpeg.min.js}"></script>
+<script type="text/javascript">
+    var player = new JSMpeg.Player('ws://127.0.0.1:8082', {
+        canvas: document.getElementById('video-canvas')
+    });
+
+    function getStream() {
+        $.ajax({
+            url: '/stream',
+            type: 'GET',
+            success: function () {
+
+            }
+        })
+    }
+</script>
 </html>
