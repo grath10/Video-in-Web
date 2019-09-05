@@ -1,10 +1,14 @@
 package com.june.video.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Elements.REMEMBER_ME;
@@ -17,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/**", "/imagecode", "/uploaded/**", "/uploaded/ticket/**", "/mqtt/**", "/sms/**", "/event/consumer");
+        web.ignoring().antMatchers("/static/**", "/imagecode", "/uploaded/**");
     }
 
     @Autowired
@@ -52,9 +56,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
-
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
+                .withUser("admin").password("admin").roles("ADMIN")
+                .and()
+                .withUser("user").password("123456").roles("USER");
+    }
 
 }
