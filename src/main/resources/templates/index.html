@@ -9,10 +9,14 @@
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" href="/static/admin-lte/bootstrap/css/bootstrap.min.css" th:href="@{/static/admin-lte/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-    <canvas id="video-canvas"></canvas>
-    <button class="btn btn-default" onclick="getStream()">查看</button>
+    <canvas id="video-canvas" style="width: 640px; height: 480px;border: 1px solid #e2e2e2;"></canvas>
+    <div class="row" style="margin-left: 15px;">
+        <button class="btn btn-default" onclick="getStream()">查看</button>
+        <button class="btn btn-default" onclick="stopStream()">停止</button>
+    </div>
 </body>
 <script src="/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js" th:href="@{/static/admin-lte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
 <script type="text/javascript" src="/static/js/jsmpeg.min.js" th:src="@{/static/js/jsmpeg.min.js}"></script>
@@ -23,7 +27,23 @@
 
     function getStream() {
         $.ajax({
-            url: '/stream',
+            url: '/stream/start',
+            data: {
+                "cid": 'F1960001'
+            },
+            type: 'GET',
+            success: function () {
+
+            }
+        })
+    }
+
+    function stopStream() {
+        $.ajax({
+            url: '/stream/stop',
+            data: {
+                "cid": 'F1960001'
+            },
             type: 'GET',
             success: function () {
 
