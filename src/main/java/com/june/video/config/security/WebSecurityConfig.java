@@ -1,12 +1,17 @@
-package com.june.video.config;
+package com.june.video.config.security;
 
+import com.june.video.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.Arrays;
 
 import static org.springframework.security.config.Elements.REMEMBER_ME;
 
@@ -33,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**")
                 .authorizeRequests()
                 //授权控制
-                .antMatchers("/video/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/video/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -47,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .key(WEB_REM_ME_KEY)
+                .userDetailsService(userService)
                 .rememberMeParameter(REMEMBER_ME)
                 .rememberMeCookieName(WEB_TOKEN)
                 .tokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
@@ -55,11 +61,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
+
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin").password("admin").roles("ADMIN")
                 .and()
                 .withUser("user").password("123456").roles("USER");
-    }
+    }*/
 
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return new ProviderManager(Arrays.asList(authenticationProvider));
+    }
 }
