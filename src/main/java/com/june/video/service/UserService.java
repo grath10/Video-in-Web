@@ -17,7 +17,9 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+        People people = new People();
+        people.setName(s);
+        return userDao.selectOne(people);
     }
 
     public void updateUserLastLoginTime(Integer uId) {
