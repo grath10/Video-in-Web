@@ -9,6 +9,7 @@ CREATE TABLE `device` (
   `State` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `Username` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `Password` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `StreamUrl` varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
   `Historic_Count` int(11) NOT NULL,
   `Annual_Count` int(11) NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE

@@ -54,7 +54,7 @@
         <!--<table tableName="xcxuser">-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--</table>-->
-        <table tableName="people" schema="public_facility"
+        <table tableName="device" schema="public_facility"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
