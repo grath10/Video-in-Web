@@ -1,9 +1,9 @@
 package com.june.video.config.security;
 
+import com.june.video.domain.People;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class WebAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        User user = (User) authentication.getPrincipal();
+        People user = (People) authentication.getPrincipal();
         httpServletRequest.getSession().setAttribute("user", user);
         httpServletResponse.sendRedirect("/index");
     }
